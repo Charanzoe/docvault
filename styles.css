@@ -2461,3 +2461,43 @@ input, textarea, select, button { font-size: 16px; } /* prevent iOS zoom */
 @supports (-webkit-touch-callout: none) {
   .lock-screen, .sidebar { height: 100dvh; min-height: -webkit-fill-available; }
 }
+
+/* ===== MOBILE SIDE LINES (decorative gradient edges) ===== */
+@media (max-width: 760px) {
+  body::before, body::after {
+    content: '';
+    position: fixed;
+    top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg,
+      transparent 0%,
+      rgba(108,140,255,.5) 20%,
+      rgba(181,108,255,.7) 50%,
+      rgba(76,201,255,.5) 80%,
+      transparent 100%);
+    z-index: 999;
+    pointer-events: none;
+    box-shadow: 0 0 12px rgba(108,140,255,.5);
+    animation: sideLine 6s ease-in-out infinite;
+  }
+  body::before { left: 0; }
+  body::after { right: 0; animation-delay: -3s; }
+
+  @keyframes sideLine {
+    0%, 100% { opacity: .6; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(.98); }
+  }
+
+  /* Subtle dotted edge accents */
+  .sec-contact::before,
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 6px; top: 50%;
+    width: 3px; height: 60px;
+    background: var(--grad);
+    border-radius: 4px;
+    transform: translateY(-50%);
+    box-shadow: 0 0 8px rgba(108,140,255,.6);
+  }
+}
