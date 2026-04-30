@@ -511,13 +511,20 @@ $$('.reveal, .reveal-left, .reveal-right, .reveal-zoom').forEach(el => io.observ
 // Stagger index for doc-types
 $$('.doc-types .dt').forEach((el, i) => el.style.setProperty('--i', i));
 
-// Parallax on hero shield
-window.addEventListener('scroll', () => {
-  const sh = document.querySelector('.shield-anim');
-  if (sh) sh.style.transform = `translate(-50%,calc(-50% + ${window.scrollY * 0.15}px)) rotate(${window.scrollY * 0.1}deg)`;
-  const visual = document.querySelector('.hero-visual');
-  if (visual && window.scrollY < 800) visual.style.transform = `translateY(${window.scrollY * 0.08}px)`;
-}, { passive: true });
+// Parallax on hero shield (desktop only)
+if (window.innerWidth > 900) {
+  window.addEventListener('scroll', () => {
+    const sh = document.querySelector('.shield-anim');
+    if (sh) sh.style.transform = `translate(-50%,calc(-50% + ${window.scrollY * 0.15}px)) rotate(${window.scrollY * 0.1}deg)`;
+    const visual = document.querySelector('.hero-visual');
+    if (visual && window.scrollY < 800) visual.style.transform = `translateY(${window.scrollY * 0.08}px)`;
+  }, { passive: true });
+}
+
+// Disable hero tilt on touch devices
+if ('ontouchstart' in window) {
+  document.querySelectorAll('.float-card').forEach(c => c.style.transition = 'none');
+}
 
 // Smooth-scroll for nav anchors
 document.querySelectorAll('a[href^="#"]').forEach(a => {
@@ -1142,6 +1149,10 @@ openView = function(id) {
 // ---------- Particle background ----------
 (function particles() {
   const c = $('#particles'); if (!c) return;
+  // Skip on mobile/touch devices for performance
+  if (window.innerWidth <= 760 || ('ontouchstart' in window && window.innerWidth < 1024)) {
+    c.style.display = 'none'; return;
+  }
   const ctx = c.getContext('2d');
   let w, h, parts = [];
   function resize() {

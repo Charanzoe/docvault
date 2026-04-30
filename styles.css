@@ -23,16 +23,25 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html, body {
+  margin: 0; padding: 0;
+  width: 100%; max-width: 100%;
+  overflow-x: hidden;
+}
 body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   color: var(--text);
   background: var(--bg);
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
   line-height: 1.55;
+  position: relative;
 }
+img, svg, video, canvas { max-width: 100%; height: auto; }
+input, textarea, select { max-width: 100%; }
 .hidden { display: none !important; }
 button { font-family: inherit; }
 
@@ -2197,4 +2206,258 @@ input, textarea, select, button { font-size: 16px; } /* prevent iOS zoom */
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+}
+
+/* ============================================================
+   MOBILE FIXES — fix specific issues reported
+   ============================================================ */
+@media (max-width: 760px) {
+  /* Kill horizontal overflow definitively */
+  html, body { overflow-x: hidden !important; max-width: 100vw; }
+  .app, .main, .content, section, .section, .hero, .modal-card { max-width: 100vw; overflow-x: hidden; }
+
+  /* Disable expensive particle canvas on mobile */
+  #particles { display: none !important; }
+
+  /* Soften background orbs on mobile (less GPU) */
+  .orb { filter: blur(60px) !important; opacity: .3 !important; }
+  .orb1 { width: 280px !important; height: 280px !important; }
+  .orb2 { width: 320px !important; height: 320px !important; }
+  .orb3 { display: none !important; }
+
+  /* Hero visual: shrink, don't let cards overflow */
+  .hero-visual { height: 360px !important; max-width: 100%; overflow: hidden; }
+  .float-card {
+    width: 200px !important; padding: 12px !important;
+    font-size: 12px;
+  }
+  .card-aadhaar { left: 10px !important; }
+  .card-pan { right: 10px !important; }
+  .card-cert { left: 30px !important; }
+  .float-card .fc-num { font-size: 14px !important; }
+  .float-card .fc-name { font-size: 11px !important; }
+  .shield-anim { width: 140px !important; height: 140px !important; }
+
+  /* Hero stats wrap properly */
+  .hero-stats {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 18px !important; margin-top: 36px !important;
+  }
+  .hero-stats div { text-align: center; align-items: center; }
+
+  /* Top nav */
+  .nav-top { padding: 12px 16px !important; }
+  .logo-text { font-size: 16px !important; }
+  .logo-mark { width: 34px !important; height: 34px !important; }
+
+  /* Lock screen: ensure visible & scrollable */
+  .lock-screen { padding: 12px !important; align-items: flex-start !important; padding-top: 20px !important; }
+  .lock-shell {
+    grid-template-columns: 1fr !important;
+    width: 100% !important; max-width: 100% !important;
+    max-height: none !important;
+    border-radius: 18px !important;
+  }
+  .lock-left { display: none !important; }
+  .lock-right { padding: 32px 20px 24px !important; }
+  .lock-back { top: 12px !important; right: 12px !important; }
+  .lr-content { padding-top: 20px !important; }
+  #lockTitle { font-size: 24px !important; }
+  .lock-sub { font-size: 13px !important; margin-bottom: 22px !important; }
+
+  /* App: hamburger visible, sidebar hidden by default */
+  .menu-toggle { display: flex !important; align-items: center; justify-content: center; }
+  .topbar {
+    padding: 12px 14px !important;
+    flex-wrap: nowrap !important;
+    gap: 10px !important;
+  }
+  .search-wrap input { font-size: 14px !important; padding: 10px 14px 10px 38px !important; }
+  .search-icon { left: 12px !important; }
+  .search-wrap::after { display: none !important; }
+  .topbar-info { gap: 8px !important; }
+  .view-toggle { display: none; }
+  .count-pill { font-size: 11px !important; padding: 5px 10px !important; }
+
+  /* Sidebar overlay drawer */
+  .sidebar {
+    position: fixed !important; top: 0 !important; left: 0 !important;
+    height: 100vh !important; height: 100dvh !important;
+    width: 86vw !important; max-width: 320px !important;
+    transform: translateX(-100%) !important;
+    transition: transform .3s ease !important;
+    z-index: 60 !important;
+    overflow-y: auto !important;
+    padding: 18px 14px !important;
+  }
+  .sidebar.open { transform: translateX(0) !important; }
+
+  /* Category banner */
+  .cat-hero { padding: 22px 16px !important; min-height: 90px !important; }
+  .cat-hero-content { gap: 12px !important; }
+  .cat-hero-icon { width: 50px !important; height: 50px !important; font-size: 24px !important; border-radius: 14px !important; }
+  .cat-hero-content h1 { font-size: 22px !important; }
+  .cat-hero-content p { font-size: 12px !important; }
+  .cat-decor { font-size: 50px !important; opacity: .08 !important; }
+  .cat-decor:nth-child(2) { font-size: 32px !important; }
+
+  /* Stats dashboard mobile */
+  .stats-dash {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important; margin-bottom: 16px !important;
+  }
+  .stat-card { padding: 12px !important; gap: 10px !important; }
+  .stat-icon { width: 36px !important; height: 36px !important; font-size: 18px !important; border-radius: 9px !important; }
+  .stat-info b { font-size: 18px !important; }
+  .stat-info span { font-size: 9.5px !important; letter-spacing: .5px !important; }
+
+  /* Document grid - 2 columns on mobile */
+  .content { padding: 14px !important; }
+  .grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px !important;
+  }
+  .card { padding: 10px !important; border-radius: 12px !important; }
+  .card-preview { height: 90px !important; border-radius: 9px !important; margin-bottom: 8px !important; }
+  .card h3 { font-size: 13px !important; line-height: 1.3 !important; margin-bottom: 2px !important; }
+  .card .issuer { font-size: 10.5px !important; margin-bottom: 6px !important; }
+  .card-meta { gap: 4px !important; }
+  .card .tag { font-size: 9.5px !important; padding: 2px 6px !important; }
+  .themed-emoji { font-size: 32px !important; }
+  .themed-name { font-size: 9.5px !important; }
+  .pdf-icon { font-size: 32px !important; }
+  .cp-badge { width: 26px !important; height: 26px !important; font-size: 13px !important; top: 6px !important; right: 6px !important; }
+
+  /* Modals: bottom sheet style */
+  .modal {
+    padding: 0 !important;
+    align-items: flex-end !important;
+  }
+  .modal-card, .modal-card.big {
+    width: 100% !important; max-width: 100% !important;
+    max-height: 92vh !important; max-height: 92dvh !important;
+    border-radius: 18px 18px 0 0 !important;
+    margin: 0 !important;
+  }
+  .modal-head { padding: 14px 16px !important; }
+  .modal-head h2 { font-size: 15px !important; }
+  .head-actions { gap: 4px !important; }
+  .head-actions .ghost { font-size: 11px !important; padding: 6px 8px !important; }
+  .modal-body { padding: 16px !important; }
+  .modal-body label { margin-bottom: 12px !important; }
+  .modal-body input, .modal-body select, .modal-body textarea {
+    padding: 10px 12px !important; font-size: 15px !important; /* prevent iOS zoom */
+  }
+  .row { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .modal-foot {
+    flex-direction: column-reverse !important;
+    gap: 8px !important; margin-top: 0 !important;
+  }
+  .modal-foot button { width: 100% !important; padding: 12px !important; }
+
+  /* Settings */
+  .settings-tabs { overflow-x: auto !important; flex-wrap: nowrap !important; -webkit-overflow-scrolling: touch; }
+  .stab { flex: 0 0 auto !important; padding: 9px 14px !important; font-size: 12px !important; }
+  .theme-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+  .data-actions { flex-direction: column; }
+  .storage-info { flex-direction: column; gap: 14px !important; }
+
+  /* Recovery key */
+  .recovery-key {
+    font-size: 14px !important; letter-spacing: 1.5px !important;
+    padding: 12px !important; word-break: break-all !important;
+  }
+  .rk-actions { flex-direction: column !important; gap: 8px !important; }
+  .rk-actions button { width: 100% !important; }
+  .kl-chips { gap: 5px !important; }
+  .kl-chip { padding: 7px 8px !important; font-size: 11.5px !important; min-width: 40px !important; flex: 1 1 40px !important; }
+
+  /* View modal */
+  .view-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+  .view-preview { min-height: 220px !important; }
+  .view-preview img { max-height: 320px !important; }
+  .view-preview iframe { height: 320px !important; }
+
+  /* Confirm dialog */
+  .confirm-card { padding: 24px 18px !important; border-radius: 18px 18px 0 0 !important; }
+  .confirm-icon { width: 60px !important; height: 60px !important; font-size: 30px !important; }
+  .confirm-card h2 { font-size: 19px !important; }
+  .confirm-actions { flex-direction: column-reverse !important; }
+  .confirm-actions button { width: 100% !important; }
+
+  /* Forgot password tabs scrollable */
+  .rec-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  .rtab { flex: 0 0 auto; padding: 9px 12px !important; font-size: 11px !important; }
+
+  /* Sections */
+  .section { padding: 50px 18px !important; }
+  .sec-title { font-size: 26px !important; margin-bottom: 28px !important; line-height: 1.15 !important; }
+
+  /* Features grid mobile */
+  .feat-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .feat { padding: 18px !important; }
+  .feat h3 { font-size: 16px !important; }
+
+  /* Doc types */
+  .doc-types { gap: 7px !important; }
+  .dt { font-size: 12px !important; padding: 8px 13px !important; }
+
+  /* Security section */
+  .sec-flex { grid-template-columns: 1fr !important; gap: 32px !important; }
+  .sec-list { font-size: 13.5px; }
+
+  /* Contact */
+  .sec-contact { padding: 50px 18px !important; }
+  .contact-blob { display: none !important; }
+  .contact-head { margin-bottom: 26px !important; }
+  .contact-sub { font-size: 13.5px !important; }
+  .cc-list { gap: 10px !important; }
+  .cc-row { padding: 14px 14px !important; gap: 12px !important; border-radius: 12px !important; }
+  .cr-icon { width: 38px !important; height: 38px !important; }
+  .cr-icon svg { width: 18px !important; height: 18px !important; }
+  .cr-info h3 { font-size: 16px !important; }
+  .cr-info span { font-size: 11px !important; word-break: break-word !important; }
+  .cr-arrow { font-size: 16px !important; }
+
+  /* Footer */
+  .foot { padding: 36px 18px 0 !important; }
+  .foot-grid { grid-template-columns: 1fr !important; gap: 24px !important; margin-bottom: 30px !important; }
+  .foot h5 { font-size: 12px !important; margin-bottom: 12px !important; }
+  .foot a { font-size: 13px !important; word-break: break-all !important; }
+  .foot-tag { font-size: 13px !important; }
+
+  /* Toasts higher */
+  .toast { bottom: 16px !important; font-size: 13px !important; padding: 10px 16px !important; max-width: calc(100vw - 32px); text-align: center; }
+
+  /* Scroll progress bar thicker on mobile for visibility */
+  .scroll-bar { height: 2px !important; }
+
+  /* Hide hero shield + decorations clutter */
+  .hero::before { display: none !important; }
+}
+
+/* Tiny phones — extra compact */
+@media (max-width: 380px) {
+  .hero { padding: 24px 14px 50px !important; }
+  .hero h1 { font-size: 30px !important; }
+  .hero-sub { font-size: 14px !important; }
+  .hero-visual { height: 300px !important; }
+  .float-card { width: 170px !important; }
+  .card-aadhaar { left: 0 !important; }
+  .card-pan { right: 0 !important; }
+  .card-cert { left: 12px !important; }
+  .stats-dash { grid-template-columns: 1fr 1fr !important; }
+  .grid { grid-template-columns: 1fr !important; }
+  .card-preview { height: 130px !important; }
+  .nav-top { padding: 10px 12px !important; }
+  .nav-links .btn-primary { padding: 7px 12px !important; font-size: 12px !important; }
+  .section { padding: 40px 14px !important; }
+  .modal-head h2 { font-size: 14px !important; }
+  .head-actions .ghost { font-size: 10px !important; padding: 5px 7px !important; }
+}
+
+/* Fix iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+  .lock-screen, .sidebar { height: 100dvh; min-height: -webkit-fill-available; }
 }
