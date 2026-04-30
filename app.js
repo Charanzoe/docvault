@@ -813,6 +813,23 @@ function regenerateKey() {
   updateKeyStrength(pendingKeyLength);
 }
 
+// Close recovery modal via ✕ → still enter app
+document.addEventListener('click', e => {
+  if (e.target.closest('#recoverySetupModal [data-close]')) {
+    setTimeout(() => {
+      if ($('#app').classList.contains('hidden')) enterApp();
+    }, 50);
+  }
+});
+
+// Safety: Press Esc on stuck recovery modal → enter vault
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !$('#recoverySetupModal').classList.contains('hidden')) {
+    $('#recoverySetupModal').classList.add('hidden');
+    if ($('#app').classList.contains('hidden') && localStorage.getItem(HASH_KEY)) enterApp();
+  }
+});
+
 // Show recovery setup modal after successful first-time vault creation
 function promptRecoverySetup() {
   pendingKeyLength = 16;
@@ -893,9 +910,9 @@ $('#saveRecBtn').addEventListener('click', async () => {
 });
 
 $('#skipRecBtn').addEventListener('click', () => {
-  if (!confirm('Skip recovery setup? If you forget your password, you may lose access to all documents. You can set this up later in Settings.')) return;
   $('#recoverySetupModal').classList.add('hidden');
   if ($('#app').classList.contains('hidden')) enterApp();
+  toast('💡 You can set up recovery anytime from Settings');
 });
 
 // ---------- Forgot password flow ----------
