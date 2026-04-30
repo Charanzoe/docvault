@@ -770,7 +770,7 @@ const REC_KEY_HASH = 'docvault_rec_key';
 const REC_Q_KEY = 'docvault_rec_q';
 const REC_A_HASH = 'docvault_rec_a';
 
-function genRecoveryKey(length = 16) {
+function genRecoveryKey(length = 6) {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   const arr = new Uint32Array(length);
   crypto.getRandomValues(arr);
@@ -783,17 +783,17 @@ function genRecoveryKey(length = 16) {
 }
 
 let pendingRecoveryKey = null;
-let pendingKeyLength = 16;
+let pendingKeyLength = 6;
 
 function updateKeyStrength(len) {
   const el = $('#keyStrength');
   const chars = $('#keyChars');
   chars.textContent = `${len} chars`;
   let label, color;
-  if (len < 10) { label = '●○○○ Weak'; color = 'var(--red)'; }
-  else if (len < 14) { label = '●●○○ Fair'; color = 'var(--yellow)'; }
-  else if (len < 20) { label = '●●●○ Strong'; color = 'var(--green)'; }
-  else if (len < 28) { label = '●●●● Very Strong'; color = 'var(--green)'; }
+  if (len < 6) { label = '●○○○ Weak'; color = 'var(--red)'; }
+  else if (len < 10) { label = '●●○○ Fair'; color = 'var(--yellow)'; }
+  else if (len < 16) { label = '●●●○ Strong'; color = 'var(--green)'; }
+  else if (len < 24) { label = '●●●● Very Strong'; color = 'var(--green)'; }
   else { label = '●●●● Military Grade'; color = 'var(--accent-3)'; }
   el.textContent = label;
   el.style.color = color;
@@ -832,8 +832,8 @@ document.addEventListener('keydown', e => {
 
 // Show recovery setup modal after successful first-time vault creation
 function promptRecoverySetup() {
-  pendingKeyLength = 16;
-  $$('.kl-chip').forEach(c => c.classList.toggle('active', c.dataset.len === '16'));
+  pendingKeyLength = 6;
+  $$('.kl-chip').forEach(c => c.classList.toggle('active', c.dataset.len === '6'));
   $('#customLen').classList.add('hidden');
   pendingRecoveryKey = genRecoveryKey(pendingKeyLength);
   $('#recoveryKey').textContent = pendingRecoveryKey;
@@ -852,17 +852,17 @@ $$('.kl-chip').forEach(c => c.addEventListener('click', () => {
   if (c.dataset.len === 'custom') {
     $('#customLen').classList.remove('hidden');
     $('#customLen').focus();
-    pendingKeyLength = parseInt($('#customLen').value) || 16;
+    pendingKeyLength = parseInt($('#customLen').value) || 6;
   } else {
     $('#customLen').classList.add('hidden');
     pendingKeyLength = parseInt(c.dataset.len);
   }
-  pendingKeyLength = Math.max(6, Math.min(64, pendingKeyLength));
+  pendingKeyLength = Math.max(4, Math.min(64, pendingKeyLength));
   regenerateKey();
 }));
 $('#customLen').addEventListener('input', e => {
   let v = parseInt(e.target.value) || 0;
-  v = Math.max(6, Math.min(64, v));
+  v = Math.max(4, Math.min(64, v));
   pendingKeyLength = v;
   regenerateKey();
 });
@@ -946,7 +946,7 @@ $('#recoverByKeyBtn').addEventListener('click', async () => {
   if (!key) return toast('Enter your recovery key');
   // accept with or without dashes — re-format with dashes every 4
   let normalized = key.replace(/-/g, '');
-  if (normalized.length < 6 || normalized.length > 64) return toast('Invalid key length');
+  if (normalized.length < 4 || normalized.length > 64) return toast('Invalid key length');
   normalized = normalized.match(/.{1,4}/g).join('-');
   if (await sha256(normalized) !== stored) return toast('❌ Wrong recovery key');
   if (np.length < 6) return toast('Password must be 6+ characters');

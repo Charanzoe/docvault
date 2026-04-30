@@ -447,17 +447,17 @@
 
       <!-- Length picker -->
       <div class="key-length">
-        <label class="kl-label">Key Length</label>
+        <label class="kl-label">Choose key length (your wish)</label>
         <div class="kl-chips">
+          <button type="button" class="kl-chip active" data-len="6">6</button>
           <button type="button" class="kl-chip" data-len="8">8</button>
-          <button type="button" class="kl-chip active" data-len="16">16</button>
-          <button type="button" class="kl-chip" data-len="20">20</button>
-          <button type="button" class="kl-chip" data-len="24">24</button>
-          <button type="button" class="kl-chip" data-len="32">32</button>
+          <button type="button" class="kl-chip" data-len="10">10</button>
+          <button type="button" class="kl-chip" data-len="12">12</button>
+          <button type="button" class="kl-chip" data-len="16">16</button>
           <button type="button" class="kl-chip" data-len="custom">Custom</button>
         </div>
-        <input type="number" id="customLen" class="hidden" min="6" max="64" placeholder="Enter length (6-64)" value="16"/>
-        <div class="kl-meta"><span id="keyStrength">●●●● Strong</span><span id="keyChars">16 chars</span></div>
+        <input type="number" id="customLen" class="hidden" min="4" max="64" placeholder="Any length 4–64" value="6"/>
+        <div class="kl-meta"><span id="keyStrength">●●○○ Fair</span><span id="keyChars">6 chars</span></div>
       </div>
 
       <div class="recovery-key" id="recoveryKey">XXXX-XXXX-XXXX-XXXX</div>
