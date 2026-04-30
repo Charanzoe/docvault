@@ -1123,6 +1123,29 @@ openView = function(id) {
   }
 };
 
+// ---------- Landing nav burger ----------
+(function landingNav() {
+  const burger = $('#navBurger');
+  const links = $('#navLinks');
+  if (!burger || !links) return;
+  burger.addEventListener('click', () => {
+    burger.classList.toggle('open');
+    links.classList.toggle('open');
+  });
+  // Close on link click
+  links.querySelectorAll('a, button').forEach(el => el.addEventListener('click', () => {
+    burger.classList.remove('open');
+    links.classList.remove('open');
+  }));
+  // Close on outside click
+  document.addEventListener('click', e => {
+    if (!burger.contains(e.target) && !links.contains(e.target)) {
+      burger.classList.remove('open');
+      links.classList.remove('open');
+    }
+  });
+})();
+
 // ---------- Mobile hamburger menu ----------
 (function mobileMenu() {
   const toggle = $('#menuToggle');

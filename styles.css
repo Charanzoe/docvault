@@ -2462,6 +2462,69 @@ input, textarea, select, button { font-size: 16px; } /* prevent iOS zoom */
   .lock-screen, .sidebar { height: 100dvh; min-height: -webkit-fill-available; }
 }
 
+/* ===== MOBILE LANDING NAV (burger + dropdown) ===== */
+.nav-burger {
+  display: none;
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--panel); border: 1px solid var(--border);
+  cursor: pointer; flex-direction: column; align-items: center; justify-content: center;
+  gap: 5px; padding: 0;
+}
+.nav-burger span {
+  width: 18px; height: 2px; background: var(--text);
+  border-radius: 2px; transition: all .25s;
+}
+.nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity: 0; }
+.nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 760px) {
+  .nav-burger { display: flex; }
+  .nav-links {
+    position: fixed;
+    top: 64px; left: 12px; right: 12px;
+    background: linear-gradient(160deg, rgba(26,31,71,.98), rgba(13,17,38,.98));
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-2);
+    border-radius: 16px;
+    padding: 14px;
+    flex-direction: column;
+    gap: 4px;
+    transform: translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all .25s ease;
+    z-index: 50;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  }
+  .nav-links.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .nav-links a {
+    display: block !important;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: var(--text) !important;
+    font-size: 15px !important;
+    font-weight: 500;
+    transition: all .15s;
+    border-left: 3px solid transparent;
+  }
+  .nav-links a:hover, .nav-links a:active {
+    background: rgba(108,140,255,.1);
+    border-left-color: var(--accent);
+    color: white !important;
+  }
+  .nav-links .btn-primary {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px 20px !important;
+    font-size: 14px !important;
+  }
+}
+
 /* ===== MOBILE SIDE LINES (decorative gradient edges) ===== */
 @media (max-width: 760px) {
   body::before, body::after {
