@@ -458,7 +458,7 @@
           <button type="button" class="kl-chip" data-len="16">16</button>
           <button type="button" class="kl-chip" data-len="custom">Custom</button>
         </div>
-        <input type="number" id="customLen" class="hidden" min="4" max="64" placeholder="Any length 4–64" value="6"/>
+        <input type="number" id="customLen" class="hidden" min="4" max="128" placeholder="Type any length you want" value="6"/>
         <div class="kl-meta"><span id="keyStrength">●●○○ Fair</span><span id="keyChars">6 chars</span></div>
       </div>
 
@@ -514,9 +514,9 @@
 
       <!-- KEY -->
       <div class="rtab-panel active" data-rpanel="key">
-        <p class="muted">Enter your 16-character recovery key (with or without dashes).</p>
+        <p class="muted">Enter the recovery key you saved (any length, with or without dashes).</p>
         <label>Recovery Key
-          <input type="text" id="recKeyInput" placeholder="XXXX-XXXX-XXXX-XXXX" style="text-transform:uppercase;font-family:'Space Grotesk',monospace;letter-spacing:2px"/>
+          <input type="text" id="recKeyInput" placeholder="Type your recovery key" autocapitalize="characters" autocorrect="off" spellcheck="false" style="text-transform:uppercase;font-family:'Space Grotesk',monospace;letter-spacing:2px"/>
         </label>
         <label>New Password
           <input type="password" id="recNewPass" placeholder="Min 6 characters"/>

@@ -871,12 +871,12 @@ $$('.kl-chip').forEach(c => c.addEventListener('click', () => {
     $('#customLen').classList.add('hidden');
     pendingKeyLength = parseInt(c.dataset.len);
   }
-  pendingKeyLength = Math.max(4, Math.min(64, pendingKeyLength));
+  pendingKeyLength = Math.max(4, Math.min(128, pendingKeyLength));
   regenerateKey();
 }));
 $('#customLen').addEventListener('input', e => {
   let v = parseInt(e.target.value) || 0;
-  v = Math.max(4, Math.min(64, v));
+  v = Math.max(4, Math.min(128, v));
   pendingKeyLength = v;
   regenerateKey();
 });
@@ -958,9 +958,9 @@ $('#recoverByKeyBtn').addEventListener('click', async () => {
   const stored = localStorage.getItem(REC_KEY_HASH);
   if (!stored) return toast('No recovery key set up');
   if (!key) return toast('Enter your recovery key');
-  // accept with or without dashes — re-format with dashes every 4
-  let normalized = key.replace(/-/g, '');
-  if (normalized.length < 4 || normalized.length > 64) return toast('Invalid key length');
+  // Accept ANY length the user originally chose. Re-format with dashes every 4.
+  let normalized = key.replace(/[\s-]/g, '');
+  if (!normalized) return toast('Enter your recovery key');
   normalized = normalized.match(/.{1,4}/g).join('-');
   if (await sha256(normalized) !== stored) return toast('❌ Wrong recovery key');
   if (np.length < 6) return toast('Password must be 6+ characters');
