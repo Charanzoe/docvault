@@ -461,7 +461,13 @@ document.addEventListener('click', e => {
   const modal = btn.closest('.modal');
   if (modal) modal.classList.add('hidden');
 });
-$('#searchInput').addEventListener('input', e => { currentSearch = e.target.value; render(); });
+// Debounced search for smoother typing on mobile
+let searchTimer;
+$('#searchInput').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  const v = e.target.value;
+  searchTimer = setTimeout(() => { currentSearch = v; render(); }, 120);
+});
 $$('#categoryList li, .nav li').forEach(li => {
   li.addEventListener('click', () => {
     $$('.nav li').forEach(x => x.classList.remove('active'));
@@ -602,12 +608,14 @@ function animateCount(sel, target, suffix='') {
 const _origRender = render;
 render = function() { _origRender(); renderStats(); updateCatHero(); };
 
-// ---------- Hero stat counters ----------
+// ---------- Hero stat counters (lazy: only when visible) ----------
 function runHeroCounters() {
   $$('.hero-stats b[data-count]').forEach(el => {
+    if (el.dataset.done) return;
+    el.dataset.done = '1';
     const target = parseInt(el.dataset.count);
     const suffix = el.dataset.suffix || '';
-    const dur = 1500; const t0 = performance.now();
+    const dur = 1200; const t0 = performance.now();
     function step(t) {
       const p = Math.min((t - t0) / dur, 1);
       const eased = 1 - Math.pow(1 - p, 3);
@@ -617,7 +625,13 @@ function runHeroCounters() {
     requestAnimationFrame(step);
   });
 }
-setTimeout(runHeroCounters, 400);
+const heroStats = document.querySelector('.hero-stats');
+if (heroStats && 'IntersectionObserver' in window) {
+  const hsIO = new IntersectionObserver(es => {
+    es.forEach(e => { if (e.isIntersecting) { runHeroCounters(); hsIO.disconnect(); } });
+  });
+  hsIO.observe(heroStats);
+} else { setTimeout(runHeroCounters, 400); }
 
 // ---------- Rotating hero word ----------
 (function rotateHero() {

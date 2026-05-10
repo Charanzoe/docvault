@@ -2463,6 +2463,109 @@ input, textarea, select, button { font-size: 16px; } /* prevent iOS zoom */
   .lock-screen, .sidebar { height: 100dvh; min-height: -webkit-fill-available; }
 }
 
+/* ============================================================
+   PERFORMANCE OPTIMIZATIONS — all devices
+   ============================================================ */
+
+/* GPU acceleration for animated elements */
+.float-card, .vault-core, .ll-shield, .ccf-icon, .lock-logo,
+.orb, .scan-beam, .ll-rings span, .pulse-ring, .vault-pulse,
+.card, .stat-card, .feat, .cc-row, .contact-card {
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Render off-screen sections lazily — modern browsers */
+.section, .foot, .feat-grid, .doc-types, .stats-dash {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Optimize scroll performance */
+.modal-body, .nav, .sidebar, .settings-tabs, .rec-tabs {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Reduce paint on hover transitions */
+.card, .stat-card, .feat, .cc-row {
+  transition-property: transform, border-color, box-shadow;
+}
+
+/* Prevent layout shift on font load */
+body { font-display: swap; }
+
+/* Image rendering quality */
+.card-preview img { image-rendering: -webkit-optimize-contrast; }
+
+/* Prevent double-tap zoom on buttons */
+button, .btn-primary, .btn-ghost, a {
+  touch-action: manipulation;
+}
+
+/* ============================================================
+   MOBILE PERFORMANCE — disable expensive effects
+   ============================================================ */
+@media (max-width: 760px) {
+  /* Remove backdrop-filter (very expensive on mobile) */
+  .nav-top, .topbar, .sidebar, .modal, .modal-card,
+  .lock-card, .lock-shell, .float-card, .ccf-badge {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  /* Use solid backgrounds instead of glassmorphism */
+  .nav-top { background: rgba(6,8,24,.92) !important; }
+  .topbar { background: rgba(13,17,38,.95) !important; }
+  .sidebar { background: rgba(11,15,30,.98) !important; }
+
+  /* Disable expensive shadows */
+  .card:hover, .feat:hover, .cc-row:hover, .stat-card:hover {
+    box-shadow: 0 6px 16px rgba(0,0,0,.3) !important;
+  }
+
+  /* Simpler transitions on mobile */
+  .card, .stat-card, .feat, .cc-row, .btn-primary {
+    transition-duration: .2s !important;
+  }
+
+  /* Disable heavy animations on mobile */
+  .ll-orbit-mini, .ll-scan, .scan-beam,
+  .orbit-text, .ccf-glow, .ccf-pattern,
+  .vault-glow, .vault-pulse, .ring, .ring.r2,
+  .ll-rings, .pulse-ring, .ccf-icon-rings {
+    display: none !important;
+  }
+
+  /* Reduce orb blur (heaviest mobile cost) */
+  .orb { filter: blur(40px) !important; will-change: auto !important; }
+
+  /* Reduce shimmer/sweep effects */
+  .btn-primary::after, .lr-submit::before { display: none !important; }
+
+  /* No card icon bounce */
+  .card:hover .card-icon { animation: none !important; }
+  .feat:hover .feat-icon { animation: none !important; }
+
+  /* Static gradient text instead of animated */
+  .grad-text { animation: none !important; }
+}
+
+/* Lower-end devices: even more aggressive */
+@media (max-width: 480px) and (max-device-memory: 4) {
+  .bg-anim { display: none !important; }
+  *, *::before, *::after {
+    animation-duration: .3s !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Save data mode */
+@media (prefers-reduced-data: reduce) {
+  .bg-anim, #particles { display: none !important; }
+}
+
 /* ===== MOBILE LANDING NAV (burger + dropdown) ===== */
 .nav-burger {
   display: none;
