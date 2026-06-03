@@ -68,37 +68,98 @@
       </div>
     </div>
 
-    <div class="hero-visual">
-      <div class="float-card card-aadhaar">
-        <div class="fc-head">
-          <span>🇮🇳 Aadhaar Card</span><span class="fc-status">Verified</span>
+    <div class="hero-visual" id="hero3D">
+      <!-- 3D Stage -->
+      <div class="stage-3d" id="stage3d">
+        <!-- The Cube -->
+        <div class="cube">
+          <div class="face front">
+            <div class="face-inner">
+              <div class="face-icon">🔐</div>
+              <div class="face-label">DocVault</div>
+              <div class="face-sub">SECURE</div>
+            </div>
+          </div>
+          <div class="face back">
+            <div class="face-inner">
+              <div class="face-icon">🛡</div>
+              <div class="face-label">Protected</div>
+              <div class="face-sub">ENCRYPTED</div>
+            </div>
+          </div>
+          <div class="face right">
+            <div class="face-inner">
+              <div class="face-icon">🇮🇳</div>
+              <div class="face-label">Aadhaar</div>
+              <div class="face-sub">UIDAI</div>
+            </div>
+          </div>
+          <div class="face left">
+            <div class="face-inner">
+              <div class="face-icon">💳</div>
+              <div class="face-label">PAN Card</div>
+              <div class="face-sub">VERIFIED</div>
+            </div>
+          </div>
+          <div class="face top">
+            <div class="face-inner">
+              <div class="face-icon">📘</div>
+              <div class="face-label">Passport</div>
+              <div class="face-sub">TRAVEL</div>
+            </div>
+          </div>
+          <div class="face bottom">
+            <div class="face-inner">
+              <div class="face-icon">🎓</div>
+              <div class="face-label">Certificates</div>
+              <div class="face-sub">EARNED</div>
+            </div>
+          </div>
         </div>
-        <div class="fc-num">XXXX XXXX 1234</div>
-        <div class="fc-name">Sandeep Kumar</div>
+
+        <!-- Orbiting docs in 3D -->
+        <div class="orbit-3d ring-a">
+          <span class="o3 o-1">📄</span>
+          <span class="o3 o-2">🪪</span>
+          <span class="o3 o-3">🏆</span>
+          <span class="o3 o-4">🚗</span>
+        </div>
+        <div class="orbit-3d ring-b">
+          <span class="o3 o-1">🏥</span>
+          <span class="o3 o-2">💰</span>
+          <span class="o3 o-3">⚖️</span>
+          <span class="o3 o-4">🏠</span>
+        </div>
+
+        <!-- 3D particle field -->
+        <div class="p3d-field">
+          <span style="--x:-180px;--y:-120px;--z:80px;--d:0s"></span>
+          <span style="--x:160px;--y:-90px;--z:-100px;--d:1s"></span>
+          <span style="--x:-140px;--y:140px;--z:60px;--d:2s"></span>
+          <span style="--x:170px;--y:110px;--z:-60px;--d:3s"></span>
+          <span style="--x:-90px;--y:-160px;--z:-90px;--d:1.5s"></span>
+          <span style="--x:130px;--y:160px;--z:90px;--d:2.5s"></span>
+          <span style="--x:-200px;--y:30px;--z:-40px;--d:.5s"></span>
+          <span style="--x:200px;--y:-30px;--z:40px;--d:3.5s"></span>
+        </div>
+
+        <!-- Floor grid -->
+        <div class="floor-3d"></div>
+
+        <!-- Glow plane -->
+        <div class="glow-plane"></div>
       </div>
-      <div class="float-card card-pan">
-        <div class="fc-head"><span>💳 PAN Card</span><span class="fc-status ok">Active</span></div>
-        <div class="fc-num">ABCDE1234F</div>
-      </div>
-      <div class="float-card card-cert">
-        <div class="fc-head"><span>🎓 Certificate</span></div>
-        <div class="fc-name">AWS Solutions Architect</div>
-        <div class="fc-num">Issued 2025</div>
-      </div>
-      <div class="shield-anim">
-        <svg viewBox="0 0 100 100">
-          <defs>
-            <linearGradient id="shieldG" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#7b8cff"/>
-              <stop offset="100%" stop-color="#b56cff"/>
-            </linearGradient>
-          </defs>
-          <path d="M50 8 L88 22 V50 C88 75 70 88 50 94 C30 88 12 75 12 50 V22 Z"
-                fill="url(#shieldG)" opacity=".15"/>
-          <path d="M50 8 L88 22 V50 C88 75 70 88 50 94 C30 88 12 75 12 50 V22 Z"
-                fill="none" stroke="url(#shieldG)" stroke-width="1.5"/>
-          <path class="check-path" d="M35 52 L46 63 L66 40" fill="none" stroke="url(#shieldG)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+
+      <!-- Floating glass cards overlay (2D, in front) -->
+      <div class="fc-overlay">
+        <div class="float-card card-aadhaar">
+          <div class="fc-head"><span>🇮🇳 Aadhaar</span><span class="fc-status">Verified</span></div>
+          <div class="fc-num">XXXX • 1234</div>
+        </div>
+        <div class="float-card card-cert">
+          <div class="fc-head"><span>🎓 AWS Cert</span><span class="fc-status ok">Active</span></div>
+          <div class="fc-num">Issued 2025</div>
+        </div>
       </div>
     </div>
   </div>

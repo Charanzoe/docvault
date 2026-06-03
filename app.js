@@ -672,20 +672,26 @@ if (heroStats && 'IntersectionObserver' in window) {
   });
 })();
 
-// ---------- 3D tilt on float cards ----------
-(function tilt() {
-  const visual = document.querySelector('.hero-visual'); if (!visual) return;
+// ---------- 3D mouse parallax on hero stage ----------
+(function tilt3D() {
+  const visual = document.querySelector('#hero3D');
+  const stage = document.querySelector('#stage3d');
+  if (!visual || !stage) return;
+  if ('ontouchstart' in window && window.innerWidth < 1024) return; // skip on touch
+  let raf;
   visual.addEventListener('mousemove', e => {
-    const r = visual.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width - .5;
-    const y = (e.clientY - r.top) / r.height - .5;
-    $$('.float-card').forEach((c, i) => {
-      const baseR = [-6,5,-3][i] || 0;
-      c.style.transform = `rotate(${baseR + x*4}deg) translate(${x*15}px, ${y*15}px)`;
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const r = visual.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - .5;
+      const y = (e.clientY - r.top) / r.height - .5;
+      stage.style.animation = 'none';
+      stage.style.transform = `rotateY(${x * 18}deg) rotateX(${-y * 14}deg) translateZ(${Math.abs(x)*10}px)`;
     });
   });
   visual.addEventListener('mouseleave', () => {
-    $$('.float-card').forEach(c => c.style.transform = '');
+    stage.style.transform = '';
+    stage.style.animation = '';
   });
 })();
 
