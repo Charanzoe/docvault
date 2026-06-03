@@ -44,18 +44,19 @@ function showError(msg) {
   const err = $('#lockError');
   err.classList.remove('hidden');
   err.style.animation = 'none'; void err.offsetWidth; err.style.animation = '';
-  $('#lockIcon').classList.add('error');
+  $('#lockIcon')?.classList.add('error');
   $('.lock-card').animate(
     [{transform:'translateX(-10px)'},{transform:'translateX(10px)'},{transform:'translateX(0)'}],
     {duration:300}
   );
-  setTimeout(() => $('#lockIcon').classList.remove('error'), 600);
+  setTimeout(() => $('#lockIcon')?.classList.remove('error'), 600);
 }
 function clearError() {
   $('#lockError').classList.add('hidden');
 }
 
 async function handleUnlock() {
+  try {
   const pass = $('#masterPass').value;
   const stored = localStorage.getItem(HASH_KEY);
   const isSetup = !stored;
@@ -69,7 +70,7 @@ async function handleUnlock() {
     if (!confirm) return showError('Please confirm your password');
     if (pass !== confirm) return showError("Passwords don't match");
     localStorage.setItem(HASH_KEY, await sha256(pass));
-    $('#lockIcon').classList.add('success');
+    $('#lockIcon')?.classList.add('success');
     clearError();
     toast('🎉 Vault created successfully!');
     setTimeout(() => {
@@ -80,9 +81,11 @@ async function handleUnlock() {
     // Returning user
     if (await sha256(pass) === stored) {
       failedAttempts = 0;
-      $('#lockIcon').classList.add('success');
+      $('#lockIcon')?.classList.add('success');
       clearError();
-      setTimeout(enterApp, 350);
+      // Enter immediately + safety fallback
+      enterApp();
+      setTimeout(() => { if ($('#app').classList.contains('hidden')) enterApp(); }, 400);
     } else {
       failedAttempts++;
       $('#masterPass').value = '';
@@ -101,6 +104,16 @@ async function handleUnlock() {
         showError(`Wrong password — ${remaining} attempt${remaining===1?'':'s'} left`);
       }
     }
+  }
+  } catch (err) {
+    console.error('handleUnlock error:', err);
+    // Emergency fallback: if password matched but something errored, still enter vault
+    try {
+      const p = $('#masterPass').value;
+      const stored = localStorage.getItem(HASH_KEY);
+      if (stored && p && await sha256(p) === stored) enterApp();
+      else showError('Something went wrong. Please try again.');
+    } catch (e2) { showError('Error: ' + e2.message); }
   }
 }
 
