@@ -724,11 +724,36 @@
         </div>
       </div>
       <div class="empty-state" id="emptyState">
-        <div class="empty-illus">
-          <div class="ring"></div>
-          <div class="ring r2"></div>
-          <div class="empty-icon">📂</div>
+        <!-- 3D Empty Vault Scene -->
+        <div class="empty-3d">
+          <div class="e3d-stage">
+            <!-- Floating documents in 3D -->
+            <div class="e3d-doc d1">🇮🇳</div>
+            <div class="e3d-doc d2">💳</div>
+            <div class="e3d-doc d3">🎓</div>
+            <div class="e3d-doc d4">📘</div>
+            <div class="e3d-doc d5">🏆</div>
+            <div class="e3d-doc d6">🚗</div>
+
+            <!-- Center vault -->
+            <div class="e3d-vault">
+              <div class="e3d-vault-glow"></div>
+              <div class="e3d-vault-core">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0110 0v4"/>
+                </svg>
+              </div>
+              <div class="e3d-ring r1"></div>
+              <div class="e3d-ring r2"></div>
+              <div class="e3d-ring r3"></div>
+            </div>
+
+            <!-- Floor reflection -->
+            <div class="e3d-floor"></div>
+          </div>
         </div>
+
         <h2>Your vault is empty</h2>
         <p>Click <b>+ Add Document</b> to safely store your first Aadhaar, certificate, or any document.</p>
         <button class="btn-primary" id="emptyAdd">+ Add Your First Document</button>
