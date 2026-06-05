@@ -1,10 +1,10 @@
-# 🔐 DocVault
+# 🔐 Vaultora
 
 **Secure, local-first vault for your important documents — Aadhaar, PAN, Passport, certificates and more.**
 
 🌐 **Live demo:** [Deploy below](#-view-on-any-device)
 
-![DocVault](https://img.shields.io/badge/DocVault-v2.0-6c8cff?style=for-the-badge)
+![Vaultora](https://img.shields.io/badge/Vaultora-v2.0-6c8cff?style=for-the-badge)
 ![Privacy](https://img.shields.io/badge/Privacy-100%25_Local-3ddc97?style=for-the-badge)
 ![Mobile](https://img.shields.io/badge/Responsive-All_Devices-b56cff?style=for-the-badge)
 

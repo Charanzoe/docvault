@@ -1,4 +1,4 @@
-// ============ DocVault — pro edition ============
+// ============ Vaultora — pro edition ============
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
 
@@ -910,7 +910,7 @@ $('#copyKeyBtn').addEventListener('click', () => {
 });
 $('#downloadKeyBtn').addEventListener('click', () => {
   const blob = new Blob([
-    `DocVault Recovery Key\n=====================\n\n${pendingRecoveryKey}\n\nKeep this safe! You will need this key to recover your vault if you forget your master password.\n\nGenerated: ${new Date().toLocaleString()}`
+    `Vaultora Recovery Key\n=====================\n\n${pendingRecoveryKey}\n\nKeep this safe! You will need this key to recover your vault if you forget your master password.\n\nGenerated: ${new Date().toLocaleString()}`
   ], { type:'text/plain' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);

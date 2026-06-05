@@ -1,6 +1,6 @@
 {
-  "name": "DocVault — Secure Document Vault",
-  "short_name": "DocVault",
+  "name": "Vaultora — Secure Document Vault",
+  "short_name": "Vaultora",
   "description": "Local-first vault for Aadhaar, PAN, certificates and important documents",
   "start_url": "/",
   "display": "standalone",
